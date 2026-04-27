@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Plantas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-list"></i> Todas as Plantas</h1>
+            <a href="/" class="btn" style="display: inline-block; margin-top: 20px;">
+                <i class="fas fa-home"></i> Voltar ao Início
+            </a>
+        </header>
+
+        <div class="plantas-grid">
+            {% for planta in plantas %}
+            <div class="planta-card">
+                {% if planta.imagem_b64 %}
+                <img src="data:image/jpeg;base64,{{ planta.imagem_b64 }}" 
+                     alt="{{ planta.nome }}" class="planta-imagem">
+                {% else %}
+                <div class="planta-imagem" style="display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                {% endif %}
+                
+                <div class="planta-info">
+                    <h3 class="planta-nome">{{ planta.nome }}</h3>
+                    <div class="planta-cient">{{ planta.nome_cientifico }}</div>
+                    <p class="planta-desc">{{ planta.descricao[:150] }}{% if planta.descricao|length > 150 %}...{% endif %}</p>
+                    <div class="planta-actions">
+                        <a href="/imagem/{{ planta.id }}" class="btn btn-sm btn-download" download>
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        <a href="#" class="btn btn-sm btn-view" onclick="verDetalhes({{ planta.id }})">
+                            <i class="fas fa-eye"></i> Ver Mais
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function verDetalhes(id) {
+            alert(`Detalhes da planta ID: ${id}\n(Implementar modal de detalhes aqui)`);
+        }
+    </script>
+</body>
+</html>
